@@ -73,7 +73,25 @@ const GET_ALL_POST = async (req, res) => {
     }
 }
 
-
 // like and dislike
 
-module.exports = {CREATE_POST, GET_A_POST, GET_ALL_POST, UPDATE_POST, DELETE_POST}
+const LIKE_DISLIKE = async (req, res) => {
+    const {id} = req.params;
+    const {userId} = req.body;
+
+    try {   
+        const post = await Post.findById(id)
+        if(!post.likes.includes(userId)) {
+            await Post.updateOne({$push: {likes: userId}})
+            res.status(200).json("You have been like this post")
+        }else{
+            await Post.updateOne({$pull: {likes: userId}})
+            res.status(200).json("You have been dislike this post")
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({error: error.message})
+    }
+}
+
+module.exports = {CREATE_POST, GET_A_POST, GET_ALL_POST, UPDATE_POST, DELETE_POST, LIKE_DISLIKE}

@@ -13,10 +13,10 @@ const REGISTER = async (req, res) => {
         if(!isEmail(email)) throw Error("Email is invalid")
         if(!isStrongPassword(password)) throw Error("Password must be strong")
 
-        const isUsernameExist = await User.find({username})
+        const isUsernameExist = await User.findOne({username})
         if(isUsernameExist) throw Error("This username is already existed")
 
-        const isEmailExist = await User.find({email})
+        const isEmailExist = await User.findOne({email})
         if(isEmailExist) throw Error("This email is already existed")
 
         const salt = await bcrypt.genSalt();
