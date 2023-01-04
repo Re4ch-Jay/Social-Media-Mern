@@ -10,5 +10,7 @@ app.listen(process.env.PORT, () => {
 })
 
 const authRoutes = require("./routes/authRoutes")
+const postRoutes = require("./routes/postRoutes")
 
 app.use("/api/auth", authRoutes)
+app.use("/api/post", postRoutes)

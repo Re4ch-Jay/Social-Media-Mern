@@ -13,8 +13,11 @@ const REGISTER = async (req, res) => {
         if(!isEmail(email)) throw Error("Email is invalid")
         if(!isStrongPassword(password)) throw Error("Password must be strong")
 
-        const isUserExist = await User.find({email, username})
-        if(isUserExist) throw Error("This username or email is already existed")
+        const isUsernameExist = await User.find({username})
+        if(isUsernameExist) throw Error("This username is already existed")
+
+        const isEmailExist = await User.find({email})
+        if(isEmailExist) throw Error("This email is already existed")
 
         const salt = await bcrypt.genSalt();
         const hash = await bcrypt.hash(password, salt);
